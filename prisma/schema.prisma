@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  name        String
+  email       String    @unique
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model OutboxEvent {
+  id            Int         @id @default(autoincrement())
+  eventType     String      @map("event_type")
+  aggregatedId  String      @map("aggregated_id")
+  payload       Json
+  status        String      @default("pending")
+  createdAt     DateTime    @default(now()) @map("created_at")
+  sentAt        DateTime?   @map("sent_at")
+
+  @@index([status])
+  @@map("outbox_events")
+}
