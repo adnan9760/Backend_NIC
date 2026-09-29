@@ -19,6 +19,7 @@ const pollAndPublish = async ()=>{
             orderBy: { createdAt: 'asc' },
             take: 20
         })
+        console.log("evevnt",events)
         
         for( const event of events){
             try {

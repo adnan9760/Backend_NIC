@@ -1,6 +1,7 @@
 import amqp from 'amqplib';
 import cron from 'node-cron';
 
+
 const RABBITMQ_URL = process.env.RABBITMQ_URL || 'amqp://localhost';
 const REFRESH_QUEUE='cache_refresh_queue'
 let channel;

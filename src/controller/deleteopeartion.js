@@ -9,7 +9,6 @@ export const deleteUser = async (req, res) => {
             const user = await tx.user.delete({
                 where: { id: Number(id) }
             });
-
             await tx.outboxEvent.create({
                 data: {
                     eventType: 'USER_DELETED',
@@ -24,10 +23,10 @@ export const deleteUser = async (req, res) => {
 
             return user;
         });
-        notifyFromEvent({
-            eventType: 'USER_DELETED',
-            payload: { userId: result.id }
-        });
+        // notifyFromEvent({
+        //     eventType: 'USER_DELETED',
+        //     payload: { userId: result.id }
+        // });
 
         return res.status(200).json({ message: "User deleted", user: result });
 

@@ -3,7 +3,9 @@ import { notifyFromEvent } from '../../ws/notifier.js'
 
 export const Insertoperation = async (req, res) => {
     try {
-        const { email, name } = req.body;
+        
+        const { email, name ,phone } = req.body;
+        console.log("email",email)
 
         if (!email || !name) {
             return res.status(400).json({
@@ -11,9 +13,11 @@ export const Insertoperation = async (req, res) => {
             })
         }
 
+        
+
         const result = await prisma.$transaction(async (tx) => {
             const user = await tx.user.create({
-                data: { name, email }
+                data: { name, email ,phone}
             })
 
             await tx.outboxEvent.create({
@@ -23,7 +27,8 @@ export const Insertoperation = async (req, res) => {
                     payload: {
                         userId: user.id,
                         name: user.name,
-                        email: user.email
+                        email: user.email,
+                        phone:user.phone
                     }
                 }
             })
@@ -31,10 +36,10 @@ export const Insertoperation = async (req, res) => {
             return user;
         })
 
-        notifyFromEvent({
-            eventType: 'USER_CREATED',
-            payload: result
-        });
+        // notifyFromEvent({
+        //     eventType: 'USER_CREATED',
+        //     payload: result
+        // });
 
         return res.status(201).json({
             message: "User created successfully",

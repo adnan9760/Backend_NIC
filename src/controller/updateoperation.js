@@ -35,10 +35,10 @@ export const updateUser = async (req, res) => {
 
             return user;
         });
-        notifyFromEvent({
-            eventType: 'USER_UPDATED',
-            payload: result
-        });
+        // notifyFromEvent({
+        //     eventType: 'USER_UPDATED',
+        //     payload: result
+        // });
 
         return res.status(200).json({ message: "User updated", user: result });
 

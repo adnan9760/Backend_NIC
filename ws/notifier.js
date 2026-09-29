@@ -7,6 +7,7 @@ export const notifyFromEvent = (outboxEvent)=>{
         case 'USER_CREATED':
         case 'USER_UPDATED':
         case 'USER_DELETED':
+        case 'CACHE_REFRESH':
             broadcastToClients({
                 event:outboxEvent.eventType,
                 data:outboxEvent.payload
